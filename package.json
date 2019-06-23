@@ -1,0 +1,21 @@
+{
+  "name": "API-NODE-JS-SDK",
+  "version": "1.0.0",
+  "description": "node SDK to Hyperledge fabric",
+  "main": "index.js",
+  "scripts": {
+    "start":"nodemon PORT=3000 node server.js ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PopsanAemaos/API-NODE-JS-SDK.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PopsanAemaos/API-NODE-JS-SDK/issues"
+  },
+  "homepage": "https://github.com/PopsanAemaos/API-NODE-JS-SDK#readme"
+}
