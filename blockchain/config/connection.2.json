@@ -41,6 +41,12 @@
         }
     },
     "peers": {
+        "peer0examplecom": {
+            "url": "grpc://localhost:9051"
+        },
+        "peer1examplecom": {
+            "url": "grpc://localhost:10051"
+        },
         "peer0.org2.example.com": {
             "url": "grpc://localhost:9051"
         },

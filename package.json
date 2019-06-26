@@ -4,7 +4,12 @@
   "description": "node SDK to Hyperledge fabric",
   "main": "index.js",
   "scripts": {
-    "start":"nodemon PORT=3000 node server.js ",
+    "start1":"PORT=7777  ORG=Org1 CA=ca1.example.com MSP=Org1MSP CONNECTTION=connection.1.json nodemon  node server.js ",
+    "start2":"PORT=9999  ORG=Org2 CA=ca2.example.com MSP=Org2MSP CONNECTTION=connection.2.json nodemon  node server.js ",
+    "start3":"PORT=11111 ORG=Org3 CA=ca3.example.com MSP=Org3MSP CONNECTTION=connection.3.json nodemon  node server.js ",
+    "eventOrg1": "USER=user1 PEERS=peer1.org1.example.com ORG=Org1 CONNECTTION=connection.1.json node monitor_event.js",
+    "eventOrg2": "USER=user2 PEERS=peer0.org2.example.com ORG=Org2 CONNECTTION=connection.2.json node monitor_event.js",
+    "eventOrg3": "USER=user3 PEERS=peer0.org3.example.com ORG=Org3 CONNECTTION=connection.3.json node monitor_event.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

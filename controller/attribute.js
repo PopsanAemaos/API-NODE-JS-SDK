@@ -1,11 +1,15 @@
+const converthash  = require('../Util/hash256.js')
+
 class attribute {
 
     createusers(req){
 
-        var user =[  
+        var user =[
             req.stdID.toString().toLowerCase(),
             req.name.toString().toLowerCase(),
-            req.tel.toString().toLowerCase()
+            req.tel.toString().toLowerCase(),
+            converthash.hash(req.stdID.toString().toLowerCase()),
+
         ] 
 
     return user
@@ -15,16 +19,22 @@ class attribute {
         var wallet =[
             req.walletname.toString().toLowerCase(),
             req.money.toString().toLowerCase(),
-            req.owner.toString().toLowerCase()
+            req.owner.toString().toLowerCase(),
+            converthash.hash(req.walletname.toString().toLowerCase())
+
         ]
         return wallet
     } 
-    // regiserUSER(req){
-    //     var USER =[
-    //         req.USERID.toString(),
-    //         req.USERname.toString(),
-    //     ]
-    //     return USER
-    // } 
+    queryUser(req){
+            var hash =converthash.hash(req.stdID.toString().toLowerCase())
+            var valkey = "StudentID|"+hash
+            return valkey
+    }
+    queryWallet(req){
+            var hash =converthash.hash(req.walletname.toString().toLowerCase())
+            var valkey = "Walletname|"+hash
+            return valkey
+    }
+        
 }
 module.exports = attribute

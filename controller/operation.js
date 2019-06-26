@@ -1,7 +1,6 @@
 const service  = require('../blockchain/service.js') 
 const attribute  = require('./attribute') 
 
-
 const FUNCTION_NAME= "createuser"
 const FUNCTION_NAME1= "createwallet"
 
@@ -20,18 +19,14 @@ class request{
    }
 
     async queryUser(req){
-        var valkey="StudentID|"+req.stdID
-        console.log('-------------------------------------------------------------------------------------------');
-        console.log(valkey)
+        var valkey  = await new attribute().queryUser(req)
         var result  = await new service().query(req.user,valkey)
         return JSON.parse(result.toString())
    }
    async queryWallet(req){
-        var valkey="Walletname|"+req.walletname.toString()
-        console.log('-------------------------------------------------------------------------------------------');
-        console.log(valkey)
+        var valkey  = await new attribute().queryWallet(req)
         var result  = await new service().query(req.user,valkey)
-        return result
+        return JSON.parse(result.toString())
 
     }
    async registerUSER(req){
