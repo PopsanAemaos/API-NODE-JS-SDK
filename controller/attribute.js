@@ -17,10 +17,10 @@ class attribute {
 
     createwallets(req){
         var wallet =[
-            req.walletname.toString().toLowerCase(),
+            req.walletName.toString().toLowerCase(),
             req.money.toString().toLowerCase(),
             req.owner.toString().toLowerCase(),
-            converthash.hash(req.walletname.toString().toLowerCase())
+            converthash.hash(req.walletName.toString().toLowerCase())
 
         ]
         return wallet
@@ -31,7 +31,7 @@ class attribute {
             return valkey
     }
     queryWallet(req){
-            var hash =converthash.hash(req.walletname.toString().toLowerCase())
+            var hash =converthash.hash(req.walletName.toString().toLowerCase())
             var valkey = "Walletname|"+hash
             return valkey
     }

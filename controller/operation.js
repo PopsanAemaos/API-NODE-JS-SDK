@@ -7,13 +7,11 @@ const FUNCTION_NAME1= "createwallet"
 class request{
     async createusers(req){
         var att  = await new attribute().createusers(req)
-        console.log(att)
         var result  = await new service().invoke(req.user,FUNCTION_NAME,att)
         return result
     }
     async createwallets(req){
         var att  = await new attribute().createwallets(req)
-        console.log(att)
         var result  = await new service().invoke(req.user,FUNCTION_NAME1,att)
         return result
    }
@@ -30,9 +28,8 @@ class request{
 
     }
    async registerUSER(req){
-        // var att  = await new attribute().regiserUSER(req)
-        // console.log(att)
-        var result  = await new service().registerUSER(req.user)
+
+        var result  = await new service().registerUSER(req.user,req.OrgDepartment)
         return result
 }
 

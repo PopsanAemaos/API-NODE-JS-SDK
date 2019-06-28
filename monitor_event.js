@@ -8,7 +8,7 @@ var ChannelEventArray = []
 const USER = process.env.USER
 const CONNECTTION = process.env.CONNECTTION
 const ORG = process.env.ORG
-const PEERS = process.env.PEERS
+const PORT = process.env.PORT
 //อ่านไฟล์ con   
 const ccpPath = path.resolve(__dirname,'blockchain', 'config/'+CONNECTTION);
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
@@ -16,17 +16,8 @@ const ccp = JSON.parse(ccpJSON);
 var fabric_client = new Fabric_Client();
 
 
-var url= ccp.peers[PEERS].url
-
-
-console.log(USER);
-
-console.log(url);
-console.log(`--------------------------------------------------------------------------------`);
-
-var peer = fabric_client.newPeer(url);
-var order = fabric_client.newOrderer('grpc://localhost:7050')
-console.log(peer);
+var peer = fabric_client.newPeer(`grpc://localhost:${PORT}`);
+var order = fabric_client.newOrderer('grpc://localhost:7050');
 
 // setup the fabric network
 var channelArray = []
@@ -58,20 +49,21 @@ async function event()  {
         console.log(`${channelName.channel_id}`);
         channelArray.push(fabric_client.newChannel(channelName.channel_id))
         })
-    
     channelArray.forEach(element => {
         element.addPeer(peer)
         element.addOrderer(order)
-        ChannelEventArray.push(element.newChannelEventHub(url))
+        ChannelEventArray.push(element.newChannelEventHub(`localhost:${PORT}`))
         })
         ChannelEventArray.forEach(ChannelEvent => {        
             ChannelEvent.registerBlockEvent(
                     (block) => {
-                        console.log(block)
+                        // console.log(block)
                         const buffer =block.data.data[0].payload.data.actions[0].payload.chaincode_proposal_payload.input.chaincode_spec.input.args[1]                            
-                        console.log(buffer)
-                        var Data =Buffer.from(buffer).toString("utf8")         
-                        console.log(Data)         
+                        // console.log(buffer)
+                        var Data =Buffer.from(buffer).toString("utf8")  
+                        console.log(`--------------------------------------------------------------------------------`);
+                        console.log(Data)        
+                        console.log(`--------------------------------------------------------------------------------`); 
                     },
                     (err) => {
                         ChannelEvent.unregisterBlockEvent(blockid);

@@ -3,7 +3,6 @@
     const fs =require('fs')
     const path = require('path');
     const util = require("util")
-    const converthash  = require('../Util/hash256.js')
 
     const CONFIG_CHANNEL_NAME = "mychannel"
     const CONFIG_CHAINCODE_NAME = "mychaincode"
@@ -13,6 +12,7 @@
     const CA = process.env.CA
     const CONNECTTION = process.env.CONNECTTION
 
+    // read file
     const ccpPath = path.resolve(__dirname, `config/${CONNECTTION}`);
     const ccpJSON= fs.readFileSync(ccpPath,'utf8');
     const ccp= JSON.parse(ccpJSON);
@@ -53,7 +53,7 @@ class service {
             process.exit(1);
         }
     }
-    async registerUSER(user) {
+    async registerUSER(user,OrgDepartment) {
         try {
             // Create a new file system based wallet for managing identities.
             console.log(`Wallet path: ${walletPath}`);
@@ -80,15 +80,18 @@ class service {
             const adminIdentity = gateway.getCurrentIdentity();
     
             // Register the user, enroll the user, and import the new identity into the wallet.
-            const secret = await ca.register({ affiliation: `org1.department1`, enrollmentID: user, role: 'client' }, adminIdentity);
+            const secret = await ca.register({ affiliation: OrgDepartment, enrollmentID: user, role: 'client' }, adminIdentity);
             const enrollment = await ca.enroll({ enrollmentID: user, enrollmentSecret: secret });
             const userIdentity = X509WalletMixin.createIdentity(`${ORG}MSP`, enrollment.certificate, enrollment.key.toBytes());
             await wallet.import(user, userIdentity);
+            console.log('-------------------------------------------------------------------------------------------');
             console.log(`Successfully registered and enrolled admin user ${user} and imported it into the wallet`);
             console.log('-------------------------------------------------------------------------------------------');
             return (`Successfully registered and enrolled admin user ${user} and imported it into the wallet`);
         } catch (error) {
+            console.log('*******************************************************************************************');
             console.error(`Failed to register user ${user}: ${error}`);
+            console.log('*******************************************************************************************');
             return (`Failed to register user ${user}: ${error}`);
 
             // process.exit(1);
@@ -124,15 +127,16 @@ class service {
             const argsString = args.map((arg) => util.format('%s', arg)).join('|');
 
             await contract.submitTransaction(funcname, argsString);
-
+            console.log('-------------------------------------------------------------------------------------------');
             console.log(`Transaction has been submitted :${argsString}`);
             console.log('-------------------------------------------------------------------------------------------');
             // Disconnect from the gateway.
             await gateway.disconnect();
             return (`Transaction has been submitted :${argsString}`);
         } catch (error) {
+            console.log('*******************************************************************************************');
             console.error(`Failed to submit transaction: ${error}`);
-            console.log('-------------------------------------------------------------------------------------------');
+            console.log('*******************************************************************************************');
             return (`Failed to submit transaction: ${error}`);
             // process.exit(1);     
         }
@@ -162,14 +166,16 @@ class service {
 
             // Evaluate the specified transaction.
             const result = await contract.evaluateTransaction('query',valkey);
+            console.log('-------------------------------------------------------------------------------------------');
             console.log(`Transaction has been evaluated, result is: ${result}`);
             console.log('-------------------------------------------------------------------------------------------');
             // return  JSON.parse(result.toString());
             return  result.toString();
 
         } catch (error) {
+            console.log('*******************************************************************************************');
             console.error(`Failed to evaluate transaction: ${error}`);
-            console.log('-------------------------------------------------------------------------------------------');
+            console.log('*******************************************************************************************');
             // process.exit(1);
             return (`Failed to evaluate transaction: ${error}`);
         }

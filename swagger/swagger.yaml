@@ -1,0 +1,295 @@
+swagger: "2.0"
+info:      #########################
+  description: ""
+  version: "1.0.0"
+  title: "Swagger Petstore"
+
+host: "localhost:7777"
+
+tags:    
+- name: "User"
+  description: "CreateUser"
+- name: "Wallet"
+  description: "CreateWallet"
+- name: "query"
+  description: "queryuser and querywallet"
+- name: "register"
+  description: "registeruser"
+
+schemes:
+- "http"
+paths:
+
+  /createUser:
+    post:
+      tags:
+      - "User"
+      summary: "Create a new User"    
+      
+      description: ""
+      operationId: "createuser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true  
+        
+        schema:
+          $ref: "#/definitions/user"
+      
+      responses:
+        200:
+          description: "user: user1,
+          name: shiw,
+          stdID: 60050200,
+          tel: 0354685022"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+    
+    
+    
+  /createWallet:
+    post:
+      tags:
+      - "Wallet"
+      summary: "Create a new User"     
+      
+      description: ""
+      operationId: "createwallet"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true               
+        
+        schema:
+          $ref: "#/definitions/wallet"
+
+      responses:
+        200:
+          description: ""
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+      
+      
+        
+  /queryUser:
+    post:
+      tags:
+      - "query"
+      summary: "Create a new User"     
+      description: ""
+      operationId: "queryUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true   
+        
+        schema:
+          $ref: "#/definitions/queryuser"
+      
+      responses:
+        200:
+          description: ""
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+ 
+ 
+ 
+  /queryWallet:
+    post:
+      tags:
+        - "query"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: '1'
+        description: queryWallet
+        
+        schema:
+         $ref: '#/definitions/querywallet'
+     
+      responses:
+        200:
+          description: ""
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets" 
+          
+          
+          
+  /registerUser:
+    post:
+      tags:
+        - "register"
+      description: "make product"
+      operationId: "registerUser"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - in: body
+        name: body
+        description: register
+       
+        schema:
+          $ref: '#/definitions/registeruser'
+    
+      responses:
+        200:
+          description: "[Blockchain.service.init()] We are ready to do some blockchain"
+        404:
+          description: "Not Found"
+        500:
+          description: "Internal Server Error"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets" 
+        
+        
+        
+        
+  
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+    
+    
+    
+definitions:
+  
+  user:
+    type: "object"
+    required:
+        - "user"
+        - "name"
+        - "stdID"
+        - "tel"
+    properties:
+      user:
+        type: "string"
+        example: "user1"
+      name:
+        type: "string"
+        example: "doggie"
+      stdID:
+        type: "string"
+        example: "600502020"
+      tel:
+        type: "string"
+        example: "0352615165"
+      
+      
+  wallet:
+    type: "object"
+    required:
+        - "user"
+        - "walletName"
+        - "money"
+        - "owner"
+    properties:
+      user :
+        type: "string"
+        example: "user1"
+      walletName :
+        type: "string"
+        example: "sadas"
+      money:
+        type: "string"
+        example: "11121313"
+      owner:
+        type: "string"
+        example: "shiw"
+            
+            
+  queryuser:
+    type: "object"
+    required:
+        - "user"
+        - "stdID"
+    properties:
+      user: 
+        type: "string"
+        example: "user1"
+      stdID:
+        type: "string"
+        example: "60050200"
+       
+       
+  querywallet:
+    type: "object"
+    required:
+    - "walletName"
+    properties:
+      user: 
+        type: "string"
+        example: "user1"
+      walletName:
+        type: "string"
+        example: "a"
+        
+        
+  registeruser:
+    type: "object"
+    required:
+      - "user2"
+    properties:
+      user:
+       type: "string"
+       example: "user4"
+      OrgDepartment:
+        type: "string"
+        example: "org1.department1"
+      
+  
+  
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

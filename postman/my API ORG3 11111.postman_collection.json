@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "6f1ad690-248f-430a-943f-b74352fe9c67",
+		"name": "my API ORG3 11111",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createuser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": \"user3\",\n    \"stdID\": \"58050244\",\n    \"name\": \"Best3\",\n    \"tel\": \"08888888\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:11111/createuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11111",
+					"path": [
+						"createuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createwallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\":\"user3\",\n    \"walletname\":\"A\",\n    \"money\":\"33333\",\n    \"owner\":\"58050244\"\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:11111/createwallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11111",
+					"path": [
+						"createwallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryStudent",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n\t\t\"user\":\"user3\",\n\t\t\"stdID\":\"58050244\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:11111/queryUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11111",
+					"path": [
+						"queryUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "queryWallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n\t\t\"user\":\"user3\",\n        \"walletname\":\"a\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:11111/queryWallet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11111",
+					"path": [
+						"queryWallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "  regiserUSER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"user\":\"user3\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:11111/registerUSER",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11111",
+					"path": [
+						"registerUSER"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "db14b8ac-a54d-428f-bcc3-1ba9ea83374a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "dd74e832-37c9-4bde-8744-ef2f549a2c92",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
