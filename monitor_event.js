@@ -54,6 +54,7 @@ async function event()  {
         element.addOrderer(order)
         ChannelEventArray.push(element.newChannelEventHub(`localhost:${PORT}`))
         })
+        console.log(`--------------------------------------------------------------------------------`);
         ChannelEventArray.forEach(ChannelEvent => {        
             ChannelEvent.registerBlockEvent(
                     (block) => {
