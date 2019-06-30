@@ -1,2 +1,9 @@
+blockchain/config/walletOrg1
+blockchain/config/walletOrg2
+blockchain/config/walletOrg3
 node_modules
 npm-debug.log
+Dockerfile
+.dockerignore
+.gitignore
+README.md

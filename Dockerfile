@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:boron-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . /usr/src/app
 
-EXPOSE 3000
+EXPOSE 7777
 
-CMD ["npm","start1"]
+CMD ["npm","run","start1"]
+# CMD ["npm run start2"]
+# CMD ["npm run start3"]

@@ -15,7 +15,6 @@ class request{
         var result  = await new service().invoke(req.user,FUNCTION_NAME1,att)
         return result
    }
-
     async queryUser(req){
         var valkey  = await new attribute().queryUser(req)
         var result  = await new service().query(req.user,valkey)
@@ -28,7 +27,6 @@ class request{
 
     }
    async registerUSER(req){
-
         var result  = await new service().registerUSER(req.user,req.OrgDepartment)
         return result
 }

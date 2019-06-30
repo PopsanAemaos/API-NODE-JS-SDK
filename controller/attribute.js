@@ -9,19 +9,15 @@ class attribute {
             req.name.toString().toLowerCase(),
             req.tel.toString().toLowerCase(),
             converthash.hash(req.stdID.toString().toLowerCase()),
-
         ] 
-
     return user
     }
-
     createwallets(req){
         var wallet =[
             req.walletName.toString().toLowerCase(),
             req.money.toString().toLowerCase(),
             req.owner.toString().toLowerCase(),
             converthash.hash(req.walletName.toString().toLowerCase())
-
         ]
         return wallet
     } 

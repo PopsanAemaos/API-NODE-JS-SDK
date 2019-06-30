@@ -5,11 +5,9 @@ const shajs = require('./hash.js/lib/hash/sha/256')
         var key_hash = shajs('sha256').update(KEY).digest('hex')
         // Key Hash User =>  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         if (key_hash.length==64 ) {
-                console.log(`${KEY}===hash===>${key_hash}`)
                 return key_hash
             }else {
-                console.log(`${KEY}===hash===>${key_hash}`)
-                console.log(`--------------------------------! ! ! HASH FAIL ! ! !------------------------------------------------`)
+                logger.error(`${KEY}===hash===>${key_hash}`)
             }
     }
 

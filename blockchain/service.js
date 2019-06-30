@@ -3,6 +3,7 @@
     const fs =require('fs')
     const path = require('path');
     const util = require("util")
+    const logger = require('../Util/logger.js');
 
     const CONFIG_CHANNEL_NAME = "mychannel"
     const CONFIG_CHAINCODE_NAME = "mychaincode"
@@ -31,7 +32,7 @@ class service {
             const ca = new FabricCAServices(caInfo.url, /*{ trustedRoots:"", verify: false }, caInfo.caName*/);
         
             // Create a new file system based wallet for managing identities.
-            console.log(`Wallet path: ${walletPath}`);
+            logger.debug(`Wallet path: ${walletPath}`);
     
             // Check to see if we've already enrolled the admin user.
             const adminExists = await wallet.exists('admin');
@@ -39,35 +40,31 @@ class service {
                 const enrollment = await ca.enroll({ enrollmentID: 'admin', enrollmentSecret: 'adminpw' });
                 const identity = X509WalletMixin.createIdentity(`${ORG}MSP`, enrollment.certificate, enrollment.key.toBytes());
                 await wallet.import('admin', identity);
-                console.log('-------------------------------------------------------------------------------------------');
-                console.log('Successfully enrolled admin user "admin" and imported it into the wallet');
-                console.log('-------------------------------------------------------------------------------------------');
+                logger.info('Successfully enrolled admin user "admin" and imported it into the wallet');
                 return ;
             }
-                console.log('-------------------------------------------------------------------------------------------');
-                console.log(`${functionname}:We are already`);
-                console.log('-------------------------------------------------------------------------------------------');
+                logger.info(`${functionname}:We are already`);
                 return (`${functionname}:We are already`);
         } catch (error) {
-            console.error(`Failed to enroll admin user "admin": ${error}`);
+            logger.error(`Failed to enroll admin user "admin": ${error}`);
             process.exit(1);
         }
     }
     async registerUSER(user,OrgDepartment) {
         try {
             // Create a new file system based wallet for managing identities.
-            console.log(`Wallet path: ${walletPath}`);
+            logger.debug(`Wallet path: ${walletPath}`);
             // Check to see if we've already enrolled the user.
             const userExists = await wallet.exists(user);
             if (userExists) {
-                console.log(`An identity for the user ${user} already exists in the wallet`);
+                logger.info(`An identity for the user ${user} already exists in the wallet`);
                 return (`An identity for the user ${user} already exists in the wallet`);
             }
             // Check to see if we've already enrolled the admin user.
             const adminExists = await wallet.exists('admin');
             if (!adminExists) {
-                console.log('An identity for the admin user "admin" does not exist in the wallet');               
-                console.log('Run the enrollAdmin.js application before retrying');
+                logger.error('An identity for the admin user "admin" does not exist in the wallet');               
+                logger.error('Run the enrollAdmin.js application before retrying');
                 return  ('An identity for the admin user "admin" does not exist in the wallet'+'\n'+
                          'Run the enrollAdmin.js application before retrying');
             }
@@ -84,14 +81,10 @@ class service {
             const enrollment = await ca.enroll({ enrollmentID: user, enrollmentSecret: secret });
             const userIdentity = X509WalletMixin.createIdentity(`${ORG}MSP`, enrollment.certificate, enrollment.key.toBytes());
             await wallet.import(user, userIdentity);
-            console.log('-------------------------------------------------------------------------------------------');
-            console.log(`Successfully registered and enrolled admin user ${user} and imported it into the wallet`);
-            console.log('-------------------------------------------------------------------------------------------');
+            logger.info(`Successfully registered and enrolled admin user ${user} and imported it into the wallet`);
             return (`Successfully registered and enrolled admin user ${user} and imported it into the wallet`);
         } catch (error) {
-            console.log('*******************************************************************************************');
-            console.error(`Failed to register user ${user}: ${error}`);
-            console.log('*******************************************************************************************');
+            logger.error(`Failed to register user ${user}: ${error}`);
             return (`Failed to register user ${user}: ${error}`);
 
             // process.exit(1);
@@ -104,13 +97,13 @@ class service {
     async invoke (user,funcname,args) {
         try {
             // Create a new file system based wallet for managing identities.
-            console.log(`Wallet path: ${walletPath}`);
+            logger.debug(`Wallet path: ${walletPath}`);
 
             // Check to see if we've already enrolled the user.
             const userExists = await wallet.exists(user);
             if (!userExists) {
-                console.log('An identity for the user "user" does not exist in the wallet');
-                console.log('Run the registerUser.js application before retrying');
+                logger.error('An identity for the user "user" does not exist in the wallet');
+                logger.error('Run the registerUser.js application before retrying');
                 return;
             }
             // Create a new gateway for connecting to our peer node.
@@ -127,16 +120,12 @@ class service {
             const argsString = args.map((arg) => util.format('%s', arg)).join('|');
 
             await contract.submitTransaction(funcname, argsString);
-            console.log('-------------------------------------------------------------------------------------------');
-            console.log(`Transaction has been submitted :${argsString}`);
-            console.log('-------------------------------------------------------------------------------------------');
+            logger.info(`Transaction has been submitted :${argsString}`);
             // Disconnect from the gateway.
             await gateway.disconnect();
             return (`Transaction has been submitted :${argsString}`);
         } catch (error) {
-            console.log('*******************************************************************************************');
-            console.error(`Failed to submit transaction: ${error}`);
-            console.log('*******************************************************************************************');
+            logger.error(`Failed to submit transaction: ${error}`);
             return (`Failed to submit transaction: ${error}`);
             // process.exit(1);     
         }
@@ -144,13 +133,12 @@ class service {
     async query(user,valkey) {
         try {
             // Create a new file system based wallet for managing identities.
-            console.log(`Wallet path: ${walletPath}`);
+            logger.debug(`Wallet path: ${walletPath}`);
             // Check to see if we've already enrolled the user.
             const userExists = await wallet.exists(user);
-            console.log(user);
             if (!userExists) {
-                console.log(`An identity for the user "${user}" does not exist in the wallet`);
-                console.log('Run the registerUser.js application before retrying');
+                logger.error(`An identity for the user "${user}" does not exist in the wallet`);
+                logger.error('Run the registerUser.js application before retrying');
                 return;
             }
 
@@ -166,16 +154,12 @@ class service {
 
             // Evaluate the specified transaction.
             const result = await contract.evaluateTransaction('query',valkey);
-            console.log('-------------------------------------------------------------------------------------------');
-            console.log(`Transaction has been evaluated, result is: ${result}`);
-            console.log('-------------------------------------------------------------------------------------------');
+            logger.info(`Transaction has been evaluated, result is: ${result}`);
             // return  JSON.parse(result.toString());
             return  result.toString();
 
         } catch (error) {
-            console.log('*******************************************************************************************');
-            console.error(`Failed to evaluate transaction: ${error}`);
-            console.log('*******************************************************************************************');
+            logger.error(`Failed to evaluate transaction: ${error}`);
             // process.exit(1);
             return (`Failed to evaluate transaction: ${error}`);
         }
